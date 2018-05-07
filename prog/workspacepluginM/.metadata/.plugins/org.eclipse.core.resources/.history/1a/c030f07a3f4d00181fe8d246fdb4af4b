@@ -1,0 +1,40 @@
+package be.lecson.moremoney.jobs;
+
+import java.io.File;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+
+import be.lecson.moremoney.Main;
+
+public class CommandJobs implements CommandExecutor {
+	
+	File jobs;
+	Main main;
+
+	public CommandJobs(File jobs, Main main) {
+		this.jobs = jobs;
+		this.main = main;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
+		InvItem mineur = new InvItem("Mineur","tailleur",Material.STONE_AXE);
+		InvItem pecheur = new InvItem("Pecheur","canne",Material.FISHING_ROD);
+		if(sender instanceof Player) {
+			Player player = (Player) sender;
+			Inventory inv = Bukkit.createInventory(null, 54,"§5Liste des jobs");
+			inv.setItem(19, mineur.getItemMenu());
+			inv.setItem(20, pecheur.getItemMenu());
+			
+			player.openInventory(inv);
+		}
+		return false;
+	}
+
+}

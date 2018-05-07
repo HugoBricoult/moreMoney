@@ -1,0 +1,44 @@
+package be.lecson.moremoney;
+
+import java.io.File;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+public class ShopListenner implements Listener {
+
+	private File jobs;
+	private Main main;
+	
+	public ShopListenner(File jobs, Main main) {
+		this.jobs = jobs;
+		this.main = main;
+	}
+	
+	@EventHandler
+	public void onInteract(InventoryClickEvent e) {
+		Inventory inv = e.getInventory();
+		Player player = (Player) e.getWhoClicked();
+		ItemStack current = e.getCurrentItem();
+		String[] listmetier = main.getConfig().getString("jobs").split(",");
+		boolean invIsJobs = false;
+		for(int i = 0; i < (listmetier.length) ;i++) {
+			if(inv.getName().equalsIgnoreCase("§5WorkShop "+listmetier[i])) {
+				invIsJobs = true;
+				player.sendMessage("test");
+			}
+		}
+		if(invIsJobs) {
+			String lore = current.getItemMeta().getLore().toString();
+			lore.replaceAll(" "+main.getConfig().getString("money"),"");
+			int prix = Integer.parseInt(lore);
+			player.closeInventory();
+			player.sendMessage(String.valueOf(prix));
+		}
+	}
+
+}

@@ -1,0 +1,7 @@
+ackage be.lecson.moremoney;
+
+import org.bukkit.event.Listener;
+
+public class JobsLinstenner implements Listener {
+
+}

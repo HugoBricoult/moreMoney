@@ -1,0 +1,33 @@
+package be.lecson.moremoney.jobs;
+
+import java.util.Arrays;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+public class InvItem {
+	
+	private String name;
+	private String lore;
+	private Material material;
+	
+	public InvItem(String name, String lore,Material material) {
+		
+		this.name = name;
+		this.lore = lore;
+		this.material = material;
+	}
+	
+	public ItemStack getItemMenu() {
+		
+		ItemStack item = new ItemStack(material);
+		ItemMeta itemM = item.getItemMeta();
+		itemM.setDisplayName(name);
+		itemM.setLore(Arrays.asList(lore));
+		item.setItemMeta(itemM);
+		
+		return item;
+		
+	}
+}

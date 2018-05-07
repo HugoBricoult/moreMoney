@@ -1,0 +1,59 @@
+package be.lecson.moremoney;
+
+import java.io.File;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+import be.lecson.moremoney.commands.CommandMoney;
+import be.lecson.moremoney.commands.CommandMoneySee;
+import be.lecson.moremoney.commands.CommandMoneySet;
+import be.lecson.moremoney.commands.CommandPay;
+import be.lecson.moremoney.jobs.CommandJobs;
+import be.lecson.moremoney.listenner.JobsLinstenner;
+import be.lecson.moremoney.listenner.MoneyListenner;
+import net.md_5.bungee.api.ChatColor;
+
+public class Main extends JavaPlugin {
+	
+	File data;
+	File jobs;
+	
+	@Override
+	public void onLoad() {
+		
+		try {
+			File dataFolder = getDataFolder();
+			if(!dataFolder.exists()) {
+				dataFolder.mkdirs();
+			}
+			
+			data = new File(getDataFolder(),"data.txt");
+			if(!data.exists()) {
+				data.createNewFile();
+			}
+			jobs = new File(getDataFolder(),"jobs.txt");
+			if(!jobs.exists()) {
+				jobs.createNewFile();
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	@Override
+	public void onEnable() {
+		
+		saveDefaultConfig();
+		getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"moreMoney loaded !");
+		getServer().getPluginManager().registerEvents(new MoneyListenner(data,this), this);
+		getServer().getPluginManager().registerEvents(new JobsLinstenner(this), this);
+		getCommand("money").setExecutor(new CommandMoney(data,this));
+		getCommand("moneyset").setExecutor(new CommandMoneySet(data,this));
+		getCommand("moneysee").setExecutor(new CommandMoneySee(data,this));
+		getCommand("pay").setExecutor(new CommandPay(data,this));
+		getCommand("jobs").setExecutor(new CommandJobs(jobs,this));
+		
+	}
+}

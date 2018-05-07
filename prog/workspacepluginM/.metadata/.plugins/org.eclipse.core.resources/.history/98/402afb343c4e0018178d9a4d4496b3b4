@@ -1,0 +1,201 @@
+package be.lecson.moremoney.filemanager;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+
+
+
+public class DataFile {
+	File data;
+	
+	public DataFile(File data) {
+		this.data = data;
+	}
+	
+	public String getPrice(String pseudo){
+		String price = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(data);
+			br = new BufferedReader(fr);
+			String currentline = null;
+			String[] line = {"pseudo","money"};
+			while((currentline = br.readLine()) != null) {
+				line = currentline.split(":");
+				if(line[0].equalsIgnoreCase(pseudo)) {
+					price = line[1];
+				}
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return price;
+	}
+	public void setPrice(String pseudo,String phrase) {
+		
+		FileReader fr = null;
+		BufferedReader br = null;
+		Path path = data.toPath();
+		try {
+			fr = new FileReader(data);
+			br = new BufferedReader(fr);
+			String currentline = null;
+			String[] line = {"pseudo","money"};
+			while((currentline = br.readLine()) != null) {
+				line = currentline.split(":");
+				if(line[0].equalsIgnoreCase(pseudo)) {
+					List<String> fileContent = new ArrayList<>(Files.readAllLines(path));
+					for(int i = 0; i < fileContent.size();i++) {
+						if(fileContent.get(i).equals(pseudo+":"+line[1])) {
+							fileContent.set(i,phrase);
+							break;
+						}
+					}
+					Files.write(path, fileContent, StandardCharsets.UTF_8);
+				}
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public boolean playerJoin(String pseudo) {
+		BufferedReader br = null;
+		FileReader fr = null;
+		boolean isInFile = false;
+		try {
+			fr = new FileReader(data);
+			br = new BufferedReader(fr);
+			String currentLine;
+			String[] line = {"pseudo","money"};
+			
+			
+			
+			FileWriter fw = new FileWriter(data,true);
+			PrintWriter pw = new PrintWriter(fw);
+			
+			
+			
+			
+			while((currentLine = br.readLine()) != null) {
+				line = currentLine.split(":");
+				if(line[0].equalsIgnoreCase(pseudo)) {
+					isInFile = true;
+				}
+				
+				
+				currentLine = null;
+				
+			}
+			if(isInFile == false) {
+				pw.println(pseudo + ":0");
+				pw.flush();
+				pw.close();
+			}
+			
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		} finally {
+			try {
+				if (br != null)
+					br.close();
+
+				if (fr != null)
+					fr.close();
+			}
+			catch(Exception e3){
+				e3.printStackTrace();
+			}
+		}
+		return isInFile;
+	}
+	
+	public void playerJobs(Player player, String pseudo,String carrier) {
+		BufferedReader br;
+		FileReader fr;
+		try {
+			fr = new FileReader(data);
+			br = new BufferedReader(fr);
+			String currentline;
+			Path path = data.toPath();
+			String[] line = {"pseudo","metier"};
+			boolean isInFile = false;
+			FileWriter fw = new FileWriter(data,true);
+			PrintWriter pw = new PrintWriter(fw);
+			while((currentline = br.readLine()) != null) {
+				line = currentline.split(":");
+				player.sendMessage("test");
+				if(line[0].equalsIgnoreCase(pseudo)) {
+					String metier = line[1];
+					isInFile = true;
+					if(metier.equalsIgnoreCase(carrier)) {
+						player.closeInventory();
+						player.sendMessage("§eVous avez déja choisis ce metier");
+					}
+					else {
+						StringBuilder sb = new StringBuilder();
+						sb.append(pseudo+":"+carrier);
+						String phrase = sb.toString();
+						List<String> fileContent = new ArrayList<>(Files.readAllLines(path));
+						for(int i = 0; i < fileContent.size();i++) {
+							if(fileContent.get(i).equals(pseudo+":"+line[1])) {
+								fileContent.set(i,phrase);
+								break;
+							}
+						}
+						Files.write(path, fileContent, StandardCharsets.UTF_8);
+						
+					}
+				}
+				if(isInFile == false) {
+					pw.println(pseudo + ":"+carrier);
+					pw.flush();
+					pw.close();
+					player.sendMessage("§eVous etes maintenant "+carrier+" !");
+				}
+			}
+			br.close();
+			fr.close();
+		} catch (Exception e) {
+			
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

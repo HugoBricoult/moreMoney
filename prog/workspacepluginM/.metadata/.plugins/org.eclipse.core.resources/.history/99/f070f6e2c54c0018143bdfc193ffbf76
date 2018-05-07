@@ -1,0 +1,79 @@
+package be.lecson.moremoney.commands;
+
+import java.io.File;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import be.lecson.moremoney.Main;
+import be.lecson.moremoney.filemanager.DataFile;
+import net.md_5.bungee.api.ChatColor;
+
+public class CommandPay implements CommandExecutor {
+
+	File data;
+	Main main;
+	
+	public CommandPay(File data, Main main) {
+		this.data = data;
+		this.main = main;
+	}
+	// /pay <pseudo> <price>
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
+		
+			Player player = (Player) sender;
+			String target = args[0];
+			String price = args[1];
+			String pseudo = player.getName();
+			
+			
+			if(args.length < 2 || args.length > 2) {
+				player.sendMessage(ChatColor.RED+"/pay <player> <price>");
+			}
+			if(args.length == 2) {
+				if(Bukkit.getPlayerExact(target) != null) {
+					Player targeT = Bukkit.getServer().getPlayerExact(target);
+				DataFile datasender = new DataFile(data);
+				DataFile datatarget = new DataFile(data);
+				int comptesender = Integer.parseInt(datasender.getPrice(pseudo));
+				int priceInt = Integer.parseInt(price);
+				if(comptesender >= priceInt) {
+					int newSoldeSender = comptesender - priceInt;
+					String newSoldePlayer = String.valueOf(newSoldeSender);
+					StringBuilder sb = new StringBuilder();
+					sb.append(pseudo+":"+newSoldePlayer);
+					String phrase1 = sb.toString();
+					datasender.setPrice(pseudo, phrase1);
+					player.sendMessage(main.getConfig().getString("pay.virementok").replace("&", "§"));
+					
+					
+					int comptetarget = Integer.parseInt(datatarget.getPrice(target));
+					int newSoldeTarget = comptetarget + priceInt;
+					String newSoldetarget = String.valueOf(newSoldeTarget);
+					StringBuilder sB = new StringBuilder();
+					sB.append(target+":"+newSoldetarget);
+					String phrase2 = sB.toString();
+					datatarget.setPrice(target, phrase2);
+					targeT.sendMessage(main.getConfig().getString("pay.virementrecieve").replace("&", "§").replaceAll("%a", price).replaceAll("%p", pseudo));
+					
+				}
+				else {
+					player.sendMessage(ChatColor.RED+"Le joueur "+target+" est offline !");
+				}
+				}
+				else {
+					player.sendMessage(main.getConfig().getString("pay.soldeinf").replace("&", "§"));
+				}
+			
+			}
+			
+		
+		
+		return false;
+	}
+
+}

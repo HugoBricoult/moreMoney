@@ -1,0 +1,57 @@
+##########################
+#    Plugin by lecson    #
+#         Economy        #
+#        moreMoney       #
+##########################
+
+#Money du server
+money: "&f$"
+
+
+#message de connection au server
+joinserv:
+  firstjoin: "&5Bienvenue&f, vous avez ouvert un nouveau compte de &5"
+  join: "Bonjour ! Votre compte est de &5"
+
+
+#message commande money
+message: "Votre compte est de &5"
+
+#message commande moneysee (le %p est la variable joueur ne fonctionne que pour moneysee)
+moneysee: "le compte de %p vaut &5"
+
+#message /pay
+pay:
+  soldeinf: "&3! &fVotre solde est insufisant &3!"
+  virementok: "&eVotre virement est finis !"
+  virementrecieve: "&eVous avez recu %a de la part de %p !"
+
+#item shop
+mineur:
+  item: "STONE,IRON_INGOT"
+  nombre: "30,5"
+  prix: "10,40"
+pecheur:
+  item: "STONE"
+  nombre: "1"
+  prix: "1"
+boulanger:
+  item: "STONE"
+  nombre: "1"
+  prix: "1"
+bucheron:
+  item: "STONE"
+  nombre: "1"
+  prix: "1"
+chasseur:
+  item: "STONE"
+  nombre: "1"
+  prix: "1"
+jardinier:
+  item: "STONE"
+  nombre: "1"
+  prix: "1"
+macon:
+  item: "STONE"
+  nombre"1"
+  prix: "1"

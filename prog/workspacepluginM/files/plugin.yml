@@ -1,0 +1,14 @@
+name: file
+version: 1.0
+author: lecson
+main: be.lecson.file.Main
+commands:
+  money:
+    description: permet de voir son compte en banque
+    permissions: money.use
+  moneyadd:
+    description: modifier le compte d'un joueur
+    permissions: moneyadd.use
+  pay:
+    description: payer un autre joueur
+    permissions: pay.use

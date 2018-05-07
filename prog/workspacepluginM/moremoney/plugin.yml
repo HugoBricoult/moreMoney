@@ -1,0 +1,23 @@
+name: moreMoney
+version: 1.1
+author: lecson
+main: be.lecson.moremoney.Main
+commands:
+  money:
+    description: parcourir son compte en banque
+    permissions: money.use
+  moneyset:
+    description: commande admin
+    permissions: moneyset.use
+  moneysee:
+    description: commande admin
+    permissions: moneysee.use
+  pay:
+    description: virement a un autre joueur
+    permissions: pay.use
+  jobs:
+    description: gui metiers
+    permissions: jobs.use
+  shop:
+    description: shop metiers
+    permissions: shop.use

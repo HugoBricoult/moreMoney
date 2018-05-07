@@ -1,0 +1,36 @@
+package be.lecson.moremoney.listenner;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import be.lecson.moremoney.Main;
+import net.minecraft.server.v1_12_R1.Material;
+
+public class JobsLinstenner implements Listener {
+
+	private Main main;
+
+	public JobsLinstenner(Main main) {
+	this.main = main;
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		Inventory inv = e.getInventory();
+		Player player = (Player) e.getWhoClicked();
+		ItemStack current = e.getCurrentItem();
+		String currentName = current.getItemMeta().getDisplayName();
+		if(inv.getName().equalsIgnoreCase("§0L§1i§es§3t§4e§5 d§6e§7s §8j§9o§ab§cs")) {
+			switch(currentName) {
+			case "Mineur":
+				
+			break;
+			}
+		}
+	}
+
+}

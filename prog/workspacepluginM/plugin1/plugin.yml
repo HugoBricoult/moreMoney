@@ -1,0 +1,14 @@
+name: plugin1
+version: 1.0
+author: lecson
+main: be.lecson.plugin1.Main
+commands:
+  test:
+    description: Commande de test
+    permission: test.use
+  alert:
+    description: Alerte a tout le serveur
+    permission: alert.use
+  donner:
+    description: donner des items
+    permissions: donner.use

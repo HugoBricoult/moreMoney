@@ -1,0 +1,51 @@
+package be.lecson.moremoney.jobs;
+
+import java.io.File;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+
+import be.lecson.moremoney.Main;
+
+public class CommandJobs implements CommandExecutor {
+	
+	File jobs;
+	Main main;
+
+	public CommandJobs(File jobs, Main main) {
+		this.jobs = jobs;
+		this.main = main;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
+		InvItem mineur = new InvItem("Mineur","tailleur",Material.STONE_PICKAXE);
+		InvItem pecheur = new InvItem("Pecheur","canne",Material.FISHING_ROD);
+		InvItem boulanger = new InvItem("Boulanger","baguette",Material.BREAD);
+		InvItem bucheron = new InvItem("Bucheron","arbre",Material.STONE_AXE);
+		InvItem charsseur = new InvItem("Chasseur","arc",Material.BOW);
+		InvItem jardinier = new InvItem("Jardinier","fourche",Material.DIAMOND_HOE);
+		InvItem macon = new InvItem("Macon","truelle",Material.STONE_SPADE);
+		
+		if(sender instanceof Player) {
+			Player player = (Player) sender;
+			Inventory inv = Bukkit.createInventory(null, 54,"§0L§1i§2s§3t§4e§5 d§6e§7s §8j§9o§ab§bs");
+			inv.setItem(19, mineur.getItemMenu());
+			inv.setItem(20, pecheur.getItemMenu());
+			inv.setItem(21, boulanger.getItemMenu());
+			inv.setItem(22, bucheron.getItemMenu());
+			inv.setItem(23, charsseur.getItemMenu());
+			inv.setItem(24, jardinier.getItemMenu());
+			inv.setItem(25, macon.getItemMenu());
+			
+			player.openInventory(inv);
+		}
+		return false;
+	}
+
+}

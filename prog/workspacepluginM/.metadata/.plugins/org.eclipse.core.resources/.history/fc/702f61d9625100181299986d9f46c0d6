@@ -1,0 +1,36 @@
+package be.lecson.moremoney.jobs;
+
+import java.io.File;
+
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import be.lecson.moremoney.Main;
+import be.lecson.moremoney.filemanager.DataFile;
+
+public class CommandShop implements CommandExecutor {
+	
+	private File jobs;
+	private Main main;
+
+	public CommandShop(File jobs, Main main) {
+		this.main = main;
+		this.jobs = jobs;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String msg, String[] args) {
+			if(sender instanceof Player) {
+				Player player = (Player) sender;
+				DataFile datafile = new DataFile(jobs);
+				String metier = datafile.getPrice(player.getName());
+				InvShop invshop = new InvShop(player,metier,main,jobs);
+				
+			}
+		return false;
+	}
+
+}
